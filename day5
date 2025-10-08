@@ -1,0 +1,142 @@
+# Form input checking
+def get_user_input():
+    name = input("Enter your name: ").strip()
+    age = input("Enter your age: ").strip()
+    email = input("Enter your email: ").strip()
+
+    # Validation
+    if not name:
+        print("Error: Name cannot be empty.")
+        return
+
+    if not age.isdigit() or int(age) <= 0:
+        print("Error: Age must be a positive number.")
+        return
+
+    if "@" not in email or "." not in email:
+        print("Error: Invalid email address.")
+        return
+
+    print("✅ Form submitted successfully!")
+    print(f"Name: {name}, Age: {age}, Email: {email}")
+
+get_user_input()
+
+
+
+# Menu Selection
+def add_student():
+    name = input("Enter student name: ")
+    print(f"{name} added successfully!")
+
+def view_students():
+    print("Here’s a list of students...")
+
+def delete_student():
+    print("Student deleted.")
+
+def main_menu():
+    while True:
+        print("\n=== STUDENT MANAGEMENT MENU ===")
+        print("1. Add Student")
+        print("2. View Students")
+        print("3. Delete Student")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_student()
+        elif choice == "2":
+            view_students()
+        elif choice == "3":
+            delete_student()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option. Try again.")
+
+main_menu()
+
+
+
+# Access Control
+class Account:
+    def __init__(self, owner, balance):
+        self.owner = owner          # public
+        self._account_type = "savings"  # protected (by convention)
+        self.__balance = balance    # private
+
+    # Public method
+    def show_info(self):
+        print(f"Owner: {self.owner}, Account type: {self._account_type}")
+
+    # Protected-like method
+    def _show_balance(self):
+        print(f"Balance: {self.__balance}")
+
+    # Getter and Setter for private balance
+    def get_balance(self):
+        return self.__balance
+
+    def set_balance(self, amount):
+        if amount >= 0:
+            self.__balance = amount
+        else:
+            print("❌ Invalid amount")
+
+acc = Account("Raphael", 1000)
+print(acc.owner)         
+print(acc._account_type) 
+
+print(acc.get_balance())
+acc.set_balance(1500)
+print(acc.get_balance())
+
+
+
+# Error Handling: Simple Error Handling
+try:
+    num1 = int(input("Enter the first number: "))
+    num2 = int(input("Enter the second number: "))
+
+    result = num1 / num2
+
+except ZeroDivisionError:
+    print("❌ Error: Cannot divide by zero.")
+except ValueError:
+    print("❌ Error: Please enter valid numbers only.")
+else:
+    print(f"✅ Result: {num1} / {num2} = {result}")
+finally:
+    print("🔚 Program execution complete.")
+
+# Error Handling: File Error Handling
+try:
+    filename = input("Enter the file name to open: ")
+    with open(filename, "r") as file:
+        content = file.read()
+        print("\n📄 File contents:\n")
+        print(content)
+except FileNotFoundError:
+    print("❌ Error: File not found. Check the file name and path.")
+except PermissionError:
+    print("❌ Error: You do not have permission to read this file.")
+except Exception as e:
+    print(f"⚠️ Unexpected error: {e}")
+finally:
+    print("🔚 File operation complete.")
+
+# Error handling: Input Validation with Error Handling
+while True:
+    try:
+        age = int(input("Enter your age: "))
+        if age <= 0:
+            raise ValueError("Age must be greater than 0.")
+    except ValueError as e:
+        print(f"❌ Invalid input: {e}")
+    else:
+        print(f"✅ Your age is {age}")
+        break
+
